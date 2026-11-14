@@ -1,0 +1,124 @@
+---
+// 부드러운 빛 위에 유리 타일과 달을 올린 일러스트. 색은 Base.astro의 --accent / --art-* 를 따른다.
+interface Props {
+  size?: "lg" | "sm";
+}
+const { size = "lg" } = Astro.props;
+const gid = `moon-g-${size}`;
+---
+
+<div class={`art art-${size}`} aria-hidden="true">
+  <span class="glow"></span>
+  <span class="dust d1"></span>
+  <span class="dust d2"></span>
+  <span class="dust d3"></span>
+  <span class="dust d4"></span>
+  <div class="tile">
+    <svg viewBox="0 0 64 64" class="moon">
+      <defs>
+        <linearGradient id={gid} x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" class="stop-from" />
+          <stop offset="1" class="stop-to" />
+        </linearGradient>
+      </defs>
+      <path d="M38 6a26 26 0 1 0 20 42A21 21 0 1 1 38 6z" fill={`url(#${gid})`} />
+    </svg>
+  </div>
+</div>
+
+<style>
+  .art {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    background: linear-gradient(180deg, var(--art-top) 0%, var(--art-bottom) 100%);
+  }
+
+  .glow {
+    position: absolute;
+    width: 70%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--art-glow) 0%, transparent 65%);
+  }
+
+  .tile {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 38%;
+    max-width: 180px;
+    aspect-ratio: 1;
+    border-radius: 26%;
+    background: linear-gradient(
+      150deg,
+      rgba(255, 255, 255, 0.98),
+      color-mix(in srgb, var(--accent) 6%, #ffffff)
+    );
+    border: 1px solid rgba(255, 255, 255, 0.9);
+    box-shadow:
+      0 24px 48px -16px var(--art-shadow),
+      0 8px 16px -8px color-mix(in srgb, var(--art-shadow) 60%, transparent),
+      inset 0 -6px 14px color-mix(in srgb, var(--accent) 12%, transparent),
+      inset 0 4px 10px rgba(255, 255, 255, 0.9);
+  }
+
+  .moon {
+    width: 56%;
+    height: auto;
+    filter: drop-shadow(0 6px 10px var(--art-shadow));
+  }
+
+  .stop-from { stop-color: var(--art-from); }
+  .stop-to { stop-color: var(--art-to); }
+
+  .dust {
+    position: absolute;
+    border-radius: 50%;
+    background: var(--accent);
+    animation: float 5s ease-in-out infinite;
+  }
+
+  .d1 { width: 10px; height: 10px; top: 18%; right: 24%; opacity: 0.55; }
+  .d2 { width: 6px; height: 6px; top: 34%; right: 16%; opacity: 0.4; animation-delay: 1.2s; }
+  .d3 { width: 8px; height: 8px; bottom: 20%; left: 22%; opacity: 0.45; animation-delay: 2.1s; }
+  .d4 { width: 5px; height: 5px; top: 22%; left: 28%; opacity: 0.35; animation-delay: 3s; }
+
+  .art-sm .d1 { width: 6px; height: 6px; }
+  .art-sm .d2,
+  .art-sm .d4 { width: 4px; height: 4px; }
+  .art-sm .d3 { width: 5px; height: 5px; }
+  .art-sm .tile {
+    width: 34%;
+    box-shadow:
+      0 12px 24px -10px var(--art-shadow),
+      inset 0 -4px 8px color-mix(in srgb, var(--accent) 12%, transparent);
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .dust { animation: none; }
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .tile {
+      background: linear-gradient(
+        150deg,
+        color-mix(in srgb, var(--accent) 14%, #3a3a46),
+        color-mix(in srgb, var(--accent) 8%, #24242c)
+      );
+      border-color: rgba(255, 255, 255, 0.08);
+      box-shadow:
+        0 24px 48px -16px rgba(0, 0, 0, 0.6),
+        inset 0 -6px 14px color-mix(in srgb, var(--accent) 12%, transparent),
+        inset 0 2px 6px rgba(255, 255, 255, 0.08);
+    }
+  }
+</style>

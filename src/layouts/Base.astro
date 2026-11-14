@@ -1,0 +1,319 @@
+---
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "Lunardust",
+  description = "Lunardust가 만드는 제품을 소개합니다.",
+} = Astro.props;
+const year = new Date().getFullYear();
+// 사이트가 하위 경로(/lunardust/)에 올라가도 링크가 맞도록 base를 붙인다.
+const base = import.meta.env.BASE_URL.replace(/\/?$/, "/");
+---
+
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="icon" href={`${base}favicon.svg`} type="image/svg+xml" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"
+    />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="topbar-inner">
+        <a class="brand" href={base} aria-label="Lunardust 홈">
+          <svg viewBox="0 0 64 64" width="26" height="26" aria-hidden="true">
+            <path d="M38 6a26 26 0 1 0 20 42A21 21 0 1 1 38 6z" class="brand-moon" />
+            <circle cx="50" cy="14" r="3.4" class="brand-dust" />
+          </svg>
+          <span>lunardust</span>
+        </a>
+        <nav class="nav" aria-label="주요 메뉴">
+          <a class="nav-link" href={`${base}#products`}>제품</a>
+          <a class="nav-link" href={`${base}#about`}>소개</a>
+          <a class="pill pill-accent" href={`${base}#products`}>제품 보기</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <slot />
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        <p class="footer-brand">lunardust</p>
+        <p class="footer-note">
+          제품별 서비스 이용약관과 개인정보처리방침은 각 제품 페이지에서 확인할 수 있어요.
+        </p>
+        <p class="footer-copy">© {year} Lunardust. All rights reserved.</p>
+      </div>
+    </footer>
+  </body>
+</html>
+
+<style is:global>
+  :root {
+    --bg: #ffffff;
+    --grey50: #f9fafb;
+    --grey100: #f2f4f6;
+    --grey200: #e5e8eb;
+    --grey400: #b0b8c1;
+    --grey500: #8b95a1;
+    --grey600: #6b7684;
+    --grey700: #4e5968;
+    --grey800: #333d4b;
+    --grey900: #191f28;
+    --card: #ffffff;
+    --maxw: 1100px;
+    --gutter: 24px;
+    --font: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui,
+      "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+
+    /* 고유색 Lunar Violet. accent(버튼·로고), accent-strong(눌림), accent-text(바탕 위 글자),
+       on-accent(버튼 위 글자) 네 가지만 정하고 나머지는 섞어서 만든다. */
+    --accent: #6d4aff;
+    --accent-strong: #5b3fd9;
+    --accent-text: #6d4aff;
+    --on-accent: #ffffff;
+
+    --accent-50: color-mix(in srgb, var(--accent) 10%, var(--bg));
+    --art-top: color-mix(in srgb, var(--accent) 4%, var(--bg));
+    --art-bottom: color-mix(in srgb, var(--accent) 12%, var(--bg));
+    --art-glow: color-mix(in srgb, var(--accent) 30%, transparent);
+    --art-shadow: color-mix(in srgb, var(--accent-strong) 35%, transparent);
+    --art-from: color-mix(in srgb, var(--accent) 55%, #ffffff);
+    --art-to: var(--accent-strong);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #17171c;
+      --grey50: #1e1e24;
+      --grey100: #2c2c35;
+      --grey200: #3c3c47;
+      --grey400: #62626d;
+      --grey500: #7e7e87;
+      --grey600: #9e9ea4;
+      --grey700: #c3c3c6;
+      --grey800: #e4e4e5;
+      --grey900: #f5f5f6;
+      --card: #2c2c35;
+
+      --accent: #b39dff;
+      --accent-strong: #cbbaff;
+      --accent-text: #bfabff;
+      --on-accent: #17171c;
+      --accent-50: color-mix(in srgb, var(--accent) 16%, var(--bg));
+      --art-top: color-mix(in srgb, var(--accent) 10%, var(--bg));
+      --art-bottom: color-mix(in srgb, var(--accent) 18%, var(--bg));
+      --art-from: color-mix(in srgb, var(--accent) 70%, #ffffff);
+      --art-to: color-mix(in srgb, var(--accent) 80%, #000000);
+      --art-shadow: rgba(0, 0, 0, 0.55);
+    }
+  }
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--grey900);
+    font-family: var(--font);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    word-break: keep-all;
+    overflow-wrap: anywhere;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  img,
+  svg {
+    display: block;
+    max-width: 100%;
+  }
+
+  main {
+    width: 100%;
+    max-width: var(--maxw);
+    margin: 0 auto;
+    padding: 0 var(--gutter);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--accent-text);
+    outline-offset: 3px;
+  }
+
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    height: 36px;
+    padding: 0 14px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    white-space: nowrap;
+    transition: background-color 0.15s;
+  }
+
+  .pill-accent {
+    background: var(--accent);
+    color: var(--on-accent);
+  }
+
+  .pill-accent:hover {
+    background: var(--accent-strong);
+  }
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    height: 24px;
+    padding: 0 8px;
+    border-radius: 6px;
+    background: var(--grey100);
+    color: var(--grey600);
+    font-size: 13px;
+    font-weight: 500;
+  }
+
+  .chip-accent {
+    background: var(--accent-50);
+    color: var(--accent-text);
+  }
+
+  @media (max-width: 640px) {
+    :root {
+      --gutter: 20px;
+    }
+  }
+</style>
+
+<style>
+  .topbar {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: color-mix(in srgb, var(--bg) 92%, transparent);
+    backdrop-filter: saturate(180%) blur(12px);
+    -webkit-backdrop-filter: saturate(180%) blur(12px);
+  }
+
+  .topbar-inner {
+    max-width: var(--maxw);
+    height: 60px;
+    margin: 0 auto;
+    padding: 0 var(--gutter);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 21px;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    color: var(--grey800);
+  }
+
+  .brand-moon,
+  .brand-dust {
+    fill: var(--accent);
+  }
+
+  .brand-dust {
+    opacity: 0.6;
+  }
+
+  .nav {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .nav-link {
+    padding: 8px 12px;
+    border-radius: 8px;
+    color: var(--grey700);
+    font-size: 15px;
+    font-weight: 500;
+    transition: background-color 0.15s;
+  }
+
+  .nav-link:hover {
+    background: var(--grey100);
+  }
+
+  .pill {
+    margin-left: 8px;
+  }
+
+  .footer {
+    margin-top: 120px;
+    border-top: 1px solid var(--grey100);
+  }
+
+  .footer-inner {
+    max-width: var(--maxw);
+    margin: 0 auto;
+    padding: 40px var(--gutter) 56px;
+    color: var(--grey500);
+    font-size: 14px;
+  }
+
+  .footer p {
+    margin: 0;
+  }
+
+  .footer-brand {
+    color: var(--grey700);
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+  }
+
+  .footer-note {
+    margin-top: 12px !important;
+  }
+
+  .footer-copy {
+    margin-top: 4px !important;
+  }
+
+  @media (max-width: 640px) {
+    .nav-link {
+      display: none;
+    }
+    .footer {
+      margin-top: 80px;
+    }
+  }
+</style>

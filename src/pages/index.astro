@@ -1,0 +1,336 @@
+---
+import Base from "../layouts/Base.astro";
+import MoonArt from "../components/MoonArt.astro";
+import { products } from "../data/products";
+
+const base = import.meta.env.BASE_URL.replace(/\/?$/, "/");
+---
+
+<Base>
+  <!-- 대표 소개 -->
+  <section class="hero">
+    <div class="hero-text">
+      <h1>작고 단단한 제품을<br />만드는 Lunardust</h1>
+      <p class="hero-desc">
+        Lunardust가 만드는 제품을 한곳에서 소개해요.<br class="br-wide" />
+        지금은 첫 제품을 준비하고 있어요.
+      </p>
+      <a class="pill pill-accent hero-cta" href="#products">제품 둘러보기</a>
+    </div>
+    <div class="hero-art">
+      <MoonArt />
+    </div>
+  </section>
+
+  <div class="layout">
+    <!-- 제품 목록 -->
+    <section id="products" class="list" aria-labelledby="products-title">
+      <h2 id="products-title">전체 제품</h2>
+
+      <ul class="items">
+        {
+          products.length === 0 ? (
+            <li class="item">
+              <div class="item-text">
+                <div class="chips">
+                  <span class="chip chip-accent">준비 중</span>
+                  <span class="chip">Lunardust</span>
+                </div>
+                <h3>첫 제품을 준비하고 있어요</h3>
+                <p>제품이 나오면 이곳에서 가장 먼저 소개할게요.</p>
+              </div>
+              <div class="item-thumb thumb-soon">
+                <MoonArt size="sm" />
+              </div>
+            </li>
+          ) : (
+            products.map((p) => (
+              <li>
+                <a class="item item-link" href={p.href ?? `${base}${p.slug}`}>
+                  <div class="item-text">
+                    {p.tags && p.tags.length > 0 && (
+                      <div class="chips">
+                        {p.tags.map((t, i) => (
+                          <span class={i === 0 ? "chip chip-accent" : "chip"}>{t}</span>
+                        ))}
+                      </div>
+                    )}
+                    <h3>{p.name}</h3>
+                    <p>{p.summary}</p>
+                  </div>
+                  <div class="item-thumb">
+                    <MoonArt size="sm" />
+                  </div>
+                </a>
+              </li>
+            ))
+          )
+        }
+      </ul>
+    </section>
+
+    <!-- 사이드바 -->
+    <aside id="about" class="side" aria-label="Lunardust 소개">
+      <div class="side-card">
+        <h2 class="side-title">Lunardust 소개</h2>
+        <p class="side-text">
+          일상에서 자주 손이 가는, 작지만 오래 쓰는 제품을 만들어요.
+        </p>
+      </div>
+
+      <div class="side-card">
+        <h2 class="side-title">이곳에서 볼 수 있는 것</h2>
+        <ol class="rank">
+          <li>
+            <span class="num">1</span>
+            <div>
+              <strong>제품 소개</strong>
+              <span>제품마다 따로 페이지가 있어요</span>
+            </div>
+          </li>
+          <li>
+            <span class="num">2</span>
+            <div>
+              <strong>서비스 이용약관</strong>
+              <span>각 제품 페이지 아래에 있어요</span>
+            </div>
+          </li>
+          <li>
+            <span class="num">3</span>
+            <div>
+              <strong>개인정보처리방침</strong>
+              <span>각 제품 페이지 아래에 있어요</span>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </aside>
+  </div>
+</Base>
+
+<style>
+  /* 대표 소개 */
+  .hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+    align-items: center;
+    gap: 56px;
+    padding: 48px 0 96px;
+  }
+
+  h1 {
+    margin: 0;
+    font-size: clamp(28px, 3.6vw, 40px);
+    line-height: 1.35;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    color: var(--grey900);
+  }
+
+  .hero-desc {
+    margin: 16px 0 0;
+    color: var(--grey600);
+    font-size: 17px;
+    line-height: 1.65;
+  }
+
+  .hero-cta {
+    margin-top: 32px;
+    height: 44px;
+    padding: 0 20px;
+    border-radius: 10px;
+    font-size: 16px;
+  }
+
+  .hero-art {
+    aspect-ratio: 4 / 3;
+    border-radius: 24px;
+    overflow: hidden;
+  }
+
+  /* 본문 2단 */
+  .layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 300px;
+    gap: 56px;
+    align-items: start;
+  }
+
+  .list h2 {
+    margin: 24px 0 32px;
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+  }
+
+  .items {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+  }
+
+  .item {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 240px;
+    gap: 32px;
+    align-items: center;
+  }
+
+  .item-link:hover h3 {
+    color: var(--accent-text);
+  }
+
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 12px;
+  }
+
+  .item h3 {
+    margin: 0;
+    font-size: 20px;
+    line-height: 1.45;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    transition: color 0.15s;
+  }
+
+  .item p {
+    margin: 8px 0 0;
+    color: var(--grey600);
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  .item-thumb {
+    aspect-ratio: 16 / 9;
+    border-radius: 16px;
+    overflow: hidden;
+  }
+
+  /* 사이드바 */
+  .side {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    position: sticky;
+    top: 84px;
+  }
+
+  .side-card {
+    padding: 24px 20px;
+    border-radius: 20px;
+    background: var(--grey50);
+  }
+
+  .side-title {
+    margin: 0 0 16px;
+    color: var(--grey600);
+    font-size: 15px;
+    font-weight: 500;
+  }
+
+  .side-text {
+    margin: 0;
+    color: var(--grey800);
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  .rank {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .rank li {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .num {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+    background: var(--card);
+    color: var(--accent-text);
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+  .rank strong {
+    display: block;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--grey800);
+    line-height: 1.5;
+  }
+
+  .rank span:not(.num) {
+    display: block;
+    margin-top: 2px;
+    color: var(--grey500);
+    font-size: 13px;
+  }
+
+  /* 태블릿 */
+  @media (max-width: 960px) {
+    .layout {
+      grid-template-columns: 1fr;
+      gap: 64px;
+    }
+    .side {
+      position: static;
+    }
+  }
+
+  /* 모바일 */
+  @media (max-width: 720px) {
+    .hero {
+      grid-template-columns: 1fr;
+      gap: 28px;
+      padding: 16px 0 64px;
+    }
+    .hero-art {
+      order: -1;
+      border-radius: 20px;
+    }
+    .br-wide {
+      display: none;
+    }
+    .hero-cta {
+      width: 100%;
+      justify-content: center;
+      height: 52px;
+      border-radius: 14px;
+      font-size: 17px;
+    }
+    .list h2 {
+      margin: 0 0 24px;
+      font-size: 24px;
+    }
+    .item {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+    .item-thumb {
+      order: -1;
+      border-radius: 16px;
+    }
+    /* 대표 소개 그림과 겹치므로 모바일에서는 준비 중 그림을 숨긴다 */
+    .thumb-soon {
+      display: none;
+    }
+  }
+</style>
