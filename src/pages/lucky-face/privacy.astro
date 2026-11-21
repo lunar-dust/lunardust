@@ -2,13 +2,14 @@
 import Base from "../../layouts/Base.astro";
 
 // 관상은 데이터다(lucky-face) Android 앱의 개인정보처리방침.
-// 원본 초안: 조리퐁 저장소 management/legal/policies/lucky-face-privacy-policy.md
-// 앱 첫 실행 화면에 저장하는 동의 문구 판 번호와 아래 "판"을 맞춘다.
+// 원본 초안: 조리퐁 저장소 management/legal/policies/lucky-face-privacy-policy.md, 판 3 바뀐 곳: management/legal/policies/lucky-face-privacy-policy-v3.md
+// 앱 첫 실행 안내의 동의 판 번호(`Copy.NOTICE_VERSION`)는 첫 실행 안내 문구가 바뀌거나 다루는 정보·보내는 곳이 늘 때만 올린다. 판 3(보호업무·고충 처리 부서 줄)은 올리지 않는다(앱은 2 그대로).
 const appName = "관상은 데이터다";
 const company = "조리퐁";
 const email = "lunar.dust.dev@gmail.com";
-const effective = "2026년 11월 19일";
+const effective = "2026년 11월 22일";
 const effective1 = "2026년 11월 16일";
+const effective2 = "2026년 11월 19일";
 ---
 
 <Base
@@ -18,7 +19,7 @@ const effective1 = "2026년 11월 16일";
   <article class="doc">
     <p class="eyebrow">{appName}</p>
     <h1>개인정보처리방침</h1>
-    <p class="meta">시행일 {effective} · 판 2</p>
+    <p class="meta">시행일 {effective} · 판 3</p>
 
     <p>
       {company}(이하 "회사")는 {appName} Android 앱(이하 "앱")을 이용하는 분의 개인정보를 소중히
@@ -317,6 +318,10 @@ const effective1 = "2026년 11월 16일";
           <tr><th scope="row">대표자</th><td>대표</td></tr>
           <tr><th scope="row">개인정보 보호책임자</th><td>대표</td></tr>
           <tr>
+            <th scope="row">개인정보 보호업무·고충 처리 부서</th>
+            <td>{company} 운영팀, 연락처 <a class="link" href={`mailto:${email}`}>{email}</a></td>
+          </tr>
+          <tr>
             <th scope="row">연락처(이메일)</th>
             <td><a class="link" href={`mailto:${email}`}>{email}</a></td>
           </tr>
@@ -338,8 +343,13 @@ const effective1 = "2026년 11월 16일";
           <tr><td>1</td><td>{effective1}</td><td>처음 만듦</td></tr>
           <tr>
             <td>2</td>
-            <td>{effective}</td>
+            <td>{effective2}</td>
             <td>데이터 삭제 안내 페이지와 삭제 요청 방법을 더함, 이용 연령을 만 14세 이상으로 바꿈</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>{effective}</td>
+            <td>개인정보 보호업무·고충 처리 부서와 연락처를 더함</td>
           </tr>
         </tbody>
       </table>
